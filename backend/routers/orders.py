@@ -1,0 +1,70 @@
+from fastapi import APIRouter
+from fastapi import HTTPException, Depends, status
+
+from sqlalchemy.orm import Session
+
+from backend.schemas import schemas
+from backend.routers.utils import logged_user
+from backend.infra.sqlalchemy.config import database
+from backend.infra.sqlalchemy.repository import order, user, product, company
+
+router = APIRouter()
+
+# -- PEDIDO -- #
+# Cadastrar um Pedido
+@router.get('/{company_cnpj}/{product_code}/{amount}', status_code=status.HTTP_201_CREATED)
+def create_order(company_cnpj: int, product_code: int, amount: int, 
+                data: schemas.User = Depends(logged_user),
+                db: Session = Depends(database.get_db)):
+
+    if not product.ReposityProduct(db).search_code(product_code):    
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail={'error': 'Jogo não cadastrado!'})
+    elif not company.ReposityCompany(db).search_cnpj(company_cnpj):
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail={'error': 'Empresa não cadastrado!'})
+    elif not user.ReposityUser(db).search_cpf(data.cpf):
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail={'error': 'Usuário não cadastrado!'})    
+
+    return order.ReposityOrder(db).create(schemas.Order(customer_cpf=data.cpf, market_cnpj=company_cnpj,
+                                                        game_code=product_code, amount=amount))
+
+
+
+
+
+
+
+"""
+
+# Exibir todos os Pedidos
+@router.get('/orders')
+def expose_orders(db: Session = Depends(database.get_db)):
+    orders = order.ReposityOrder(db).expose()
+    if not orders:
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail={'error': 'Não há pedidos realizados!'})
+    return orders
+
+# Exibir todos os Pedidos de um Usuário
+@router.get('/orders/user/{cpf}', status_code=status.HTTP_202_ACCEPTED)
+def search_orders_cpf(cpf: int, db: Session = Depends(database.get_db)):
+    orders = order.ReposityOrder(db).search_orders_cpf(cpf)
+    if not orders:
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail={'error': 'Não há pedidos deste Usuário'})
+    return orders
+
+# Exibir todos os Pedidos de uma Empresa
+@router.get('/orders/company/{cnpj}', status_code=status.HTTP_202_ACCEPTED)
+def search_orders_cnpj(cnpj: int, db: Session = Depends(database.get_db)):
+    orders = order.ReposityOrder(db).search_orders_cnpj(cnpj)
+    if not orders:
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail={'error': 'Não há pedidos para esta Empresa'})
+    return orders
+
+# Exibir todos os Pedidos de um Produto
+@router.get('/orders/product/{code}', status_code=status.HTTP_202_ACCEPTED)
+def search_orders_code(code: int, db: Session = Depends(database.get_db)):
+    orders = order.ReposityOrder(db).search_orders_code(code)
+    if not orders:
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail={'error': 'Não há pedidos deste Jogo'})
+    return orders
+    
+"""
