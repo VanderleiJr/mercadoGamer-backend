@@ -20,9 +20,13 @@ def market_all_itens(db: Session = Depends(database.get_db)):
 # Exibir detalhes de um produto específico e todo mundo que vende aquele produto - COMPLETO
 @router.get('/code/{code}')
 def item_and_companies(code: int, db: Session = Depends(database.get_db)):
+    if not product.ReposityProduct(db).search_code(code):
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail={'msg': "Código não cadastrado!"})
     return market.ReposityMarket(db).item_and_all_companies(code)
 
 # Exibir detalhes de uma empresa específica e tudo que ela vende - COMPLETO
 @router.get('/cnpj/{cnpj}')
 def company_and_items(cnpj: int, db: Session = Depends(database.get_db)):
+    if not company.ReposityCompany(db).search_cnpj(cnpj):
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail={'msg': "CNPJ não cadastrado!"})
     return market.ReposityMarket(db).company_and_all_items(cnpj)

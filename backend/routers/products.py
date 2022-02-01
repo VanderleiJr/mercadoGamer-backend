@@ -9,7 +9,7 @@ from backend.infra.sqlalchemy.repository import product
 
 router = APIRouter()
 
-# -- PRODUTOS -- #
+"""# -- PRODUTOS -- #
 # Cadastrar um Produto
 @router.post('/products', status_code=status.HTTP_201_CREATED)
 def create_product(item: schemas.Product, db: Session = Depends(database.get_db)):
@@ -47,3 +47,4 @@ def edit_product(code: int, item: schemas.ProductEdit, db: Session = Depends(dat
 def delete_product(code: int, db: Session = Depends(database.get_db)):
     product.ReposityProduct(db).remove(code)
     return {'msg': "O jogo foi removido com sucesso!"}
+    """
