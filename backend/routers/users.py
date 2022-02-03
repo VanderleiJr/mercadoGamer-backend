@@ -14,7 +14,7 @@ router = APIRouter()
 
 # -- USUÁRIOS -- #
 # Cadastrar o Usuário - COMPLETO
-@router.post('/singup', status_code=status.HTTP_201_CREATED, response_model=schemas.SimpleUser)
+@router.post('/signup', status_code=status.HTTP_201_CREATED, response_model=schemas.SimpleUser)
 def singup(data: schemas.User, db: Session = Depends(database.get_db)):
     data.password = hash.make_hash(data.password)
     
@@ -25,7 +25,7 @@ def singup(data: schemas.User, db: Session = Depends(database.get_db)):
 
 
 # Entrar com um Usuário - COMPLETO
-@router.post('/singin')
+@router.post('/signin')
 def singin(data: schemas.LoginUser, db: Session = Depends(database.get_db)):
     userdb = user.ReposityUser(db).search_cpf(data.cpf)
 

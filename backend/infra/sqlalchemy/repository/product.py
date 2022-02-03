@@ -31,10 +31,8 @@ class ReposityProduct():
         return game
 
     def edit(self, code: int, product: schemas.Product):
-        if not self.search_code(product.upc_ean):
-            return -1   # UPC/EAN não Cadastrado!
-        statement = update(models.Product).where(models.Product.upc_ean == code
-                    ).values(name = product.name, region = product.region,
+        statement = update(models.Product).where(models.Product.upc_ean == code).\
+                    values(name = product.name, region = product.region,
                     console = product.console, year = product.year,
                     description = product.description, price = product.price)
         self.db.execute(statement)

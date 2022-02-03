@@ -13,7 +13,7 @@ router = APIRouter()
 
 # -- EMPRESA -- #
 # Cadastrar uma Empresa - COMPLETO
-@router.post('/singup', status_code=status.HTTP_201_CREATED)
+@router.post('/signup', status_code=status.HTTP_201_CREATED)
 def singup(data: schemas.Company, db: Session = Depends(database.get_db)):
     data.password = hash.make_hash(data.password)
 
@@ -24,7 +24,7 @@ def singup(data: schemas.Company, db: Session = Depends(database.get_db)):
 
 
 # Entrar com uma Empresa - COMPLETO
-@router.post('/singin')
+@router.post('/signin')
 def singin(data: schemas.LoginCompany, db: Session = Depends(database.get_db)):
     companydb = company.ReposityCompany(db).search_cnpj(data.cnpj)
 
@@ -63,10 +63,15 @@ def register_product_company(data: schemas.CompanyRegisterProduct,
     if not game:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f'Não há um jogo com o código {data.product_code} registrado!')
 
-    company.ReposityCompany(db).registerProduct(schemas.AssociationPC(company_cnpj=companydb.cnpj,
-                                                                    amount=data.amount,
-                                                                    product_code=data.product_code))
-    return f'{game.name} ({game.upc_ean}) registrado com sucesso na empresa {companydb.name}!'
+    stock = company.ReposityCompany(db).registredProductVerify(schemas.AssociationPC(company_cnpj=companydb.cnpj, product_code=data.product_code, amount=data.amount))
+    if stock:
+        order.ReposityOrder(db).stock_edit(stock, data.amount)
+        return f'O estoque do jogo {game.name} ({game.upc_ean}) foi atualizado com sucesso na {companydb.name}!'
+    else:
+        company.ReposityCompany(db).registerProduct(schemas.AssociationPC(company_cnpj=companydb.cnpj,
+                                                                        amount=data.amount,
+                                                                        product_code=data.product_code))
+        return f'{game.name} ({game.upc_ean}) registrado com sucesso na empresa {companydb.name}!'
 
 
 # Listar todos os produtos da Empresa - COMPLETO

@@ -1,4 +1,4 @@
-from sqlalchemy import select, delete, update
+from sqlalchemy import and_, select, delete, update
 from sqlalchemy.orm import Session
 from backend.schemas import schemas
 from backend.infra.sqlalchemy.models import models
@@ -35,3 +35,16 @@ class ReposityOrder():
         statement = select(models.Order).where(models.Order.game_code == code)
         orders = self.db.execute(statement).scalars().all()
         return orders
+    
+    def stock_verify(self, association: schemas.AssociationPC):
+        statement = select(models.AssociationPC).where(models.AssociationPC.company_cnpj == association.company_cnpj,
+                                                    models.AssociationPC.product_code == association.product_code,
+                                                    models.AssociationPC.amount >= association.amount)
+        return self.db.execute(statement).scalars().first()
+
+    def stock_edit(self, association: schemas.AssociationPC, item_amount: int):
+        statement = update(models.AssociationPC).\
+                    where(and_(models.AssociationPC.company_cnpj == association.company_cnpj, models.AssociationPC.product_code == association.product_code)).\
+                    values(amount = (association.amount + item_amount))
+        self.db.execute(statement)
+        self.db.commit()

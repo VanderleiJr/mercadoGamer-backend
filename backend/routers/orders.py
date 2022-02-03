@@ -2,6 +2,7 @@ from fastapi import APIRouter
 from fastapi import HTTPException, Depends, status
 
 from sqlalchemy.orm import Session
+from backend.infra.sqlalchemy.models.models import AssociationPC
 
 from backend.schemas import schemas
 from backend.routers.utils import logged_user
@@ -11,7 +12,7 @@ from backend.infra.sqlalchemy.repository import order, user, product, company
 router = APIRouter()
 
 # -- PEDIDO -- #
-# Cadastrar um Pedido
+# Cadastrar um Pedido - COMPLETO
 @router.get('/{company_cnpj}/{product_code}/{amount}', status_code=status.HTTP_201_CREATED)
 def create_order(company_cnpj: int, product_code: int, amount: int, 
                 data: schemas.User = Depends(logged_user),
@@ -22,10 +23,16 @@ def create_order(company_cnpj: int, product_code: int, amount: int,
     elif not company.ReposityCompany(db).search_cnpj(company_cnpj):
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail={'error': 'Empresa não cadastrado!'})
     elif not user.ReposityUser(db).search_cpf(data.cpf):
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail={'error': 'Usuário não cadastrado!'})    
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail={'error': 'Usuário não cadastrado!'})
 
-    return order.ReposityOrder(db).create(schemas.Order(customer_cpf=data.cpf, market_cnpj=company_cnpj,
+    stockdb = order.ReposityOrder(db).stock_verify(AssociationPC(company_cnpj=company_cnpj, product_code=product_code, amount=amount))
+    if stockdb:
+        order.ReposityOrder(db).stock_edit(stockdb, (-1)*amount)
+        return order.ReposityOrder(db).create(schemas.Order(customer_cpf=data.cpf, market_cnpj=company_cnpj,
                                                         game_code=product_code, amount=amount))
+    else:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail={'error': 'Produto sem Estoque!'})
+
 
 
 

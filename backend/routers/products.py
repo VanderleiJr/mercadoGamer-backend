@@ -9,7 +9,7 @@ from backend.infra.sqlalchemy.repository import product
 
 router = APIRouter()
 
-"""# -- PRODUTOS -- #
+# -- PRODUTOS -- #
 # Cadastrar um Produto
 @router.post('/products', status_code=status.HTTP_201_CREATED)
 def create_product(item: schemas.Product, db: Session = Depends(database.get_db)):
@@ -17,7 +17,7 @@ def create_product(item: schemas.Product, db: Session = Depends(database.get_db)
     if new_product == -1:
         raise HTTPException(status_code=status.HTTP_409_CONFLICT, detail=f'UPC/EAN já cadastrado!')
     return new_product
-
+"""
 # Exibir todos os Produtos
 @router.get('/products')
 def expose_products(db: Session = Depends(database.get_db)):

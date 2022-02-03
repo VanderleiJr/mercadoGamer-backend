@@ -4,7 +4,7 @@ from jose import jwt
 # JOSE
 SECRET_KEY = '2c7f621a96d3d4b23bd2aa4ad070c9de'
 ALGORITHM = 'HS256'
-EXPIRES_IN_MIN = 30
+EXPIRES_IN_MIN = 60 * 24 * 7
 
 def make_token(item: dict):
     data = item.copy()

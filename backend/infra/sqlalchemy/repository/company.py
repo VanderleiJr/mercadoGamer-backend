@@ -41,6 +41,11 @@ class ReposityCompany():
         self.db.commit()
         self.db.refresh(db_association)
 
+    def registredProductVerify(self, association: schemas.AssociationPC):
+        statement = select(models.AssociationPC).where(models.AssociationPC.company_cnpj == association.company_cnpj,
+                                                    models.AssociationPC.product_code == association.product_code)
+        return self.db.execute(statement).scalars().first()
+
     def listProducts(self, company: schemas.Company):
         statement = select(models.AssociationPC).where(models.AssociationPC.company_cnpj == company.cnpj)
         products = self.db.execute(statement).scalars().all()
