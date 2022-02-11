@@ -41,7 +41,7 @@ def singin(data: schemas.LoginUser, db: Session = Depends(database.get_db)):
 
 
 # Home do Usuário - COMPLETO
-@router.get('/home', response_model=schemas.SimpleUser)
+@router.get('/home', response_model=schemas.UserNP)
 def home(data: schemas.User = Depends(logged_user)):
     return data
 

@@ -3,6 +3,7 @@ from os import access
 from pydantic import BaseModel
 from typing import Optional, List
 
+## Usuário Padrão
 class User(BaseModel):
     cpf: int
     email: str
@@ -14,6 +15,18 @@ class User(BaseModel):
     class Config:
         orm_mode = True
 
+## Usuário Padrão, sem PASSWORD
+class UserNP(BaseModel):
+    cpf: int
+    email: str
+    name: str
+    telephone: str
+    sex: str
+    birth_date: date
+    class Config:
+        orm_mode = True
+
+# Produto Padrão
 class Product(BaseModel):
     upc_ean: int
     name: str
@@ -25,6 +38,7 @@ class Product(BaseModel):
     class Config:
         orm_mode = True
 
+# Produto para edição, sem UPC_EAN
 class ProductEdit(BaseModel):
     name: Optional[str]
     region: Optional[str]
@@ -35,6 +49,7 @@ class ProductEdit(BaseModel):
     class Config:
         orm_mode = True
 
+# Compania Padrão
 class Company(BaseModel):
     cnpj: int
     email: str
@@ -44,6 +59,7 @@ class Company(BaseModel):
     class Config:
         orm_mode = True
 
+# Associação entre Produto e Compania
 class AssociationPC(BaseModel):
     company_cnpj: int
     amount: int
@@ -52,12 +68,14 @@ class AssociationPC(BaseModel):
     class Config:
         orm_mode = True
 
+# Associação entre Produto e Compania, para registro de produtos
 class CompanyRegisterProduct(BaseModel):
     product_code: int
     amount: int
     class Config:
         orm_mode = True
 
+# Pedidos Padrão
 class Order(BaseModel):
     id: Optional[int] = None
     customer_cpf: int

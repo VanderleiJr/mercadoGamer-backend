@@ -26,7 +26,7 @@ Site de venda de jogos, onde empresas anunciam e clientes compram os jogos. Dese
 ## **Produtos no Bando de Dados**
 (POST) /company/products/new - Cadastrar Produto novo no banco de dados ( \*\* )  
 (GET) /company/products/all - Ver todos Produtos cadastrados no banco de dados ( \*\* )  
-(PUT) /company/products/{code} - Alterar dados de um Produto no banco de dados
+(PUT) /company/products/{code} - Alterar dados de um Produto no banco de dados  
 (GET) /company/products/{code} - Ver dados de um Produto do banco de dados ( \*\* )  
 
 ( \*\* ) = Necessita de autenticação da empresa
