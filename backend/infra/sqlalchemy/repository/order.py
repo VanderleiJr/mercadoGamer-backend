@@ -16,7 +16,7 @@ class ReposityOrder():
         self.db.refresh(db_order)
         return db_order
 
-    def expose(self):
+    def list_all(self):
         statement = select(models.Order)
         orders = self.db.execute(statement).scalars().all()
         return orders

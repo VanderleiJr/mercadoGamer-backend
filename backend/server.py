@@ -3,7 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from backend.infra.sqlalchemy.config import database
 
-from backend.routers import users, products, companies, orders, market
+from backend.routers import users, companies, orders, market
 
 # uvicorn backend.server:app --reload --reload-dir=backend
 
@@ -19,7 +19,6 @@ app.add_middleware(
     allow_headers=['*'])
 
 # ROUTERS
-app.include_router(products.router)
 app.include_router(users.router, prefix='/user', tags=['users'])
 app.include_router(orders.router, prefix='/order', tags=['orders'])
 app.include_router(market.router, prefix='/market', tags=['market'])

@@ -17,7 +17,7 @@ class ReposityUser():
         self.db.refresh(db_user)
         return db_user
 
-    def expose(self):
+    def list_all(self):
         statement = select(models.User)
         users = self.db.execute(statement).scalars().all()
         return users

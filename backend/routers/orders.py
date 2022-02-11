@@ -45,7 +45,7 @@ def create_order(company_cnpj: int, product_code: int, amount: int,
 # Exibir todos os Pedidos
 @router.get('/orders')
 def expose_orders(db: Session = Depends(database.get_db)):
-    orders = order.ReposityOrder(db).expose()
+    orders = order.ReposityOrder(db).list_all()
     if not orders:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail={'error': 'Não há pedidos realizados!'})
     return orders

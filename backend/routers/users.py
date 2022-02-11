@@ -69,7 +69,7 @@ def delete_user(data: int = Depends(logged_user), db: Session = Depends(database
 # Exibir todos os Usuários
 @router.get('/users', status_code=status.HTTP_202_ACCEPTED)
 def expose_users(db: Session = Depends(database.get_db)):
-    users = user.ReposityUser(db).expose()
+    users = user.ReposityUser(db).list_all()
     if not users:
         raise HTTPException(status_code=status.HTTP_204_NO_CONTENT, detail=f'Não há usuários registrados!')
     return users

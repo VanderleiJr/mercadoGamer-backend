@@ -9,8 +9,6 @@ class ReposityProduct():
         self.db = db
 
     def create(self, product: schemas.Product):
-        if self.search_code(product.upc_ean):
-            return -1   # UPC/EAN já Cadastrado!
         db_product = models.Product(upc_ean = product.upc_ean, name = product.name,
                                     region = product.region, console = product.console,
                                     year = product.year, description = product.description,
@@ -20,7 +18,7 @@ class ReposityProduct():
         self.db.refresh(db_product)
         return db_product
 
-    def expose(self):
+    def list_all(self):
         statement = select(models.Product)
         products = self.db.execute(statement).scalars().all()
         return products
