@@ -56,6 +56,13 @@ def delete_company(db_data: schemas.Company = Depends(logged_company), db_sessio
     return f'A empresa {db_data.name} ({db_data.cnpj}) foi removida com sucesso!'
 
 
+# Editar uma Empresa do Banco de Dados - COMPLETO
+@router.put('/edit')
+def edit_company(html_data: schemas.CompanyNPNC, db_data: schemas.Company = Depends(logged_company), db_session: Session = Depends(database.get_db)):
+    company.ReposityCompany(db_session).edit(db_data.cnpj, html_data)
+    return f'A Empresa {html_data.name} foi atualizada com sucesso no Banco de Dados'
+
+
 # Registar um produto para a Empresa - COMPLETO
 @router.post('/products', status_code=status.HTTP_202_ACCEPTED)
 def register_product_company(html_data: schemas.CompanyRegisterProduct,

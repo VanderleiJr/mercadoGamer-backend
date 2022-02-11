@@ -1,6 +1,6 @@
 from enum import Enum
 from unicodedata import name
-from sqlalchemy import select, delete
+from sqlalchemy import select, delete, update
 from sqlalchemy.orm import Session
 from backend.schemas import schemas
 from backend.infra.sqlalchemy.models import models
@@ -53,5 +53,12 @@ class ReposityCompany():
 
     def remove_product(self, code:int):
         statement = delete(models.AssociationPC).where(models.AssociationPC.product_code == code)
+        self.db.execute(statement)
+        self.db.commit()
+
+    def edit(self, cnpj: int, company: schemas.CompanyNPNC):
+        statement = update(models.Company).where(models.Company.cnpj == cnpj).\
+                    values(name = company.name, email = company.email,
+                    description = company.description)
         self.db.execute(statement)
         self.db.commit()

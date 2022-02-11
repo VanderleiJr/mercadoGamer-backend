@@ -63,6 +63,11 @@ def delete_user(data: int = Depends(logged_user), db: Session = Depends(database
     return f'O Usuário {data.name} ({data.cpf}) foi removido com sucesso!'
 
 
+# Editar um Usuário do Banco de Dados - COMPLETO
+@router.put('/edit', response_model=schemas.UserNP)
+def edit_user(html_data: schemas.UserNPNC, db_data: schemas.User = Depends(logged_user), db_session: Session = Depends(database.get_db)):
+    user.ReposityUser(db_session).edit(db_data.cpf, html_data)
+    return db_data
 
 
 """

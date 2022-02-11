@@ -26,6 +26,16 @@ class UserNP(BaseModel):
     class Config:
         orm_mode = True
 
+## Usuário para Edição, sem PASSWORD, sem CPF
+class UserNPNC(BaseModel):
+    email: str
+    name: str
+    telephone: str
+    sex: str
+    birth_date: date
+    class Config:
+        orm_mode = True
+
 # Produto Padrão
 class Product(BaseModel):
     upc_ean: int
@@ -54,6 +64,14 @@ class Company(BaseModel):
     cnpj: int
     email: str
     password: str
+    name: str
+    description: Optional[str] = None
+    class Config:
+        orm_mode = True
+
+# Compania para Edição, sem CNPJ, sem PASSWORD
+class CompanyNPNC(BaseModel):
+    email: str
     name: str
     description: Optional[str] = None
     class Config:

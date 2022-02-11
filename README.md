@@ -34,7 +34,7 @@ Site de venda de jogos, onde empresas anunciam e clientes compram os jogos. Dese
 ## **Market**
 (GET) /market - Lista todos os itens que estão sendo vendidos  
 (GET) /market/code/{code} - Lista empresas que vendem este produto  
-(GET) /market/cnpj{cnpj} - Lista produtos vendidos por esta empresa  
+(GET) /market/cnpj/{cnpj} - Lista produtos vendidos por esta empresa  
 
 ## Arquitetura e Ferramentas
 - API REST

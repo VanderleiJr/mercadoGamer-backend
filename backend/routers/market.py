@@ -15,7 +15,10 @@ router = APIRouter()
 # Exibe todos os produtos registrados por empresas - COMPLETO
 @router.get('/')
 def market_all_itens(db: Session = Depends(database.get_db)):
-    return market.ReposityMarket(db).all_items()
+    products = market.ReposityMarket(db).all_items()
+    if not products:
+        raise HTTPException(status_code=status.HTTP_204_NO_CONTENT, detail=f'Não há produtos nesse site!')
+    return products
 
 # Exibir detalhes de um produto específico e todo mundo que vende aquele produto - COMPLETO
 @router.get('/code/{code}')

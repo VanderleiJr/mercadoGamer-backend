@@ -1,4 +1,4 @@
-from sqlalchemy import select, delete
+from sqlalchemy import select, delete, update
 from sqlalchemy.orm import Session
 from backend.schemas import schemas
 from backend.infra.sqlalchemy.models import models
@@ -29,5 +29,13 @@ class ReposityUser():
 
     def remove(self, number: int):
         statement = delete(models.User).where(models.User.cpf == number)
+        self.db.execute(statement)
+        self.db.commit()
+    
+    def edit(self, cpf: int, user: schemas.UserNPNC):
+        statement = update(models.User).where(models.User.cpf == cpf).\
+                    values(name = user.name, email = user.email,
+                    telephone = user.telephone, birth_date = user.birth_date,
+                    sex = user.sex)
         self.db.execute(statement)
         self.db.commit()
