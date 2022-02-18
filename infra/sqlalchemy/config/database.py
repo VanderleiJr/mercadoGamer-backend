@@ -1,8 +1,9 @@
 from sqlalchemy import create_engine
-from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
+from sqlalchemy.ext.declarative import declarative_base
 
-SQLALCHEMY_DATABASE_URL = "sqlite:///./mercado_gamer.db"
+
+SQLALCHEMY_DATABASE_URL = "sqlite:///./mercadoGamer-backend/mercadoGamer.db"
 # SQLALCHEMY_DATABASE_URL = "postgresql://user:password@postgresserver/db"
 
 engine = create_engine(

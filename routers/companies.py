@@ -3,11 +3,11 @@ from fastapi import HTTPException, Depends, status
 
 from sqlalchemy.orm import Session
 
-from backend.schemas import schemas
-from backend.routers.utils import logged_company
-from backend.infra.providers import hash, token
-from backend.infra.sqlalchemy.config import database
-from backend.infra.sqlalchemy.repository import company, product, order
+from .utils import logged_company
+from ..schemas import schemas
+from ..infra.providers import hash, token
+from ..infra.sqlalchemy.config import database
+from ..infra.sqlalchemy.repository import company, product, order
 
 router = APIRouter()
 

@@ -1,10 +1,9 @@
-from enum import Enum
-from unicodedata import name
 from sqlalchemy import select, delete, update
 from sqlalchemy.orm import Session
-from backend.schemas import schemas
-from backend.infra.sqlalchemy.models import models
-from backend.infra.sqlalchemy.repository import product
+
+
+from ..models import models
+from ....schemas import schemas
 
 class ReposityCompany():
     def __init__(self, db: Session) -> None:

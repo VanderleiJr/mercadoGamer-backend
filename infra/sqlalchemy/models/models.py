@@ -1,6 +1,7 @@
+from sqlalchemy.orm import relationship
 from sqlalchemy import Column, Integer, Float, String, Date, ForeignKey
-from sqlalchemy.orm import relationship, backref
-from backend.infra.sqlalchemy.config.database import Base
+
+from ..config.database import Base
 
 class AssociationPC(Base):
     __tablename__ = "associationPC"

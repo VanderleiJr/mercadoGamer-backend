@@ -2,12 +2,12 @@ from fastapi import APIRouter
 from fastapi import HTTPException, Depends, status
 
 from sqlalchemy.orm import Session
-from backend.infra.sqlalchemy.models.models import AssociationPC
 
-from backend.schemas import schemas
-from backend.routers.utils import logged_user
-from backend.infra.sqlalchemy.config import database
-from backend.infra.sqlalchemy.repository import order, user, product, company
+from ..schemas import schemas
+from ..routers.utils import logged_user
+from ..infra.sqlalchemy.config import database
+from ..infra.sqlalchemy.repository import order, user, product, company
+from ..infra.sqlalchemy.models.models import AssociationPC
 
 router = APIRouter()
 

@@ -1,7 +1,8 @@
-from sqlalchemy import and_, select, delete, update
+from sqlalchemy import and_, select, update
 from sqlalchemy.orm import Session
-from backend.schemas import schemas
-from backend.infra.sqlalchemy.models import models
+
+from ..models import models
+from ....schemas import schemas
 
 
 class ReposityOrder():

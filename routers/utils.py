@@ -6,9 +6,9 @@ from fastapi.param_functions import Depends
 from jose import JWTError
 from sqlalchemy.orm import Session
 
-from backend.infra.providers import token
-from backend.infra.sqlalchemy.config import database
-from backend.infra.sqlalchemy.repository import user, company
+from ..infra.providers import token
+from ..infra.sqlalchemy.config import database
+from ..infra.sqlalchemy.repository import user, company
 
 oauth2_schema = OAuth2PasswordBearer(tokenUrl='token')
 

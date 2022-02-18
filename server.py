@@ -1,11 +1,11 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from backend.infra.sqlalchemy.config import database
+from .infra.sqlalchemy.config import database
 
-from backend.routers import users, companies, orders, market
+from .routers import users, companies, orders, market
 
-# uvicorn backend.server:app --reload --reload-dir=backend
+# uvicorn mercadoGamer-backend.server:app --reload --reload-dir=mercadoGamer-backend
 
 database.create_db()
 app = FastAPI()
