@@ -39,3 +39,8 @@ Site de venda de jogos, onde empresas anunciam e clientes compram os jogos. Dese
 ## Arquitetura e Ferramentas
 - API REST
 - Python + FastAPI (pydantic)
+
+### Instalar módulos (python 3)
+```bash
+pip install --user -r requirements.txt
+```
